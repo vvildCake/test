@@ -166,7 +166,8 @@ public class PlayerController : MonoBehaviour
 
         public override float GetSpeed(float direction)
         {
-            return direction*owner.MidairSteerAccel + owner.jumpVelocityX;
+            owner.jumpVelocityX += direction * owner.MidairSteerAccel * Time.fixedDeltaTime;
+            return owner.jumpVelocityX;
         }
     }
 }

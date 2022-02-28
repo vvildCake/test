@@ -6,24 +6,43 @@ using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour
 {
-    
     IGameInput input;
-    PlayerController player;
+    public PlayerController Player;
+    public Camera Cam;
+    public float PlayerTrackingMinX = -3.0f;
 
-    bool isPaused; 
+    bool isPaused;
+    float camDeltaX;
     
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
         input = new GameInputSimpleKeyboard();
         AssignPlayer();
+        AssignCamera();
     }
 
     void AssignPlayer()
     {
-        player = FindObjectOfType<PlayerController>();
-        if(player == null)
-            throw new Exception($"Couldn't find a player object on this level. Are you sure it exists in the scene {SceneManager.GetActiveScene().name}");
+        if(Player == null)
+            Player = FindObjectOfType<PlayerController>();
+        if(Player == null)
+            ErrorMissingComponent("player");
+    }
+
+    void AssignCamera()
+    {
+        if(Cam == null)
+            Cam = Camera.main;
+        if(Cam == null)
+            ErrorMissingComponent("camera");
+
+        camDeltaX = Cam.transform.position.x - PlayerTrackingMinX;
+    }
+
+    void ErrorMissingComponent(string label)
+    {
+        throw new Exception($"Couldn't find a {label} object on this level. Are you sure it exists in the scene {SceneManager.GetActiveScene().name}");
     }
 
     void Update()
@@ -34,7 +53,27 @@ public class Game : MonoBehaviour
         if(isPaused)
             return;
         
-        player.Move(input.GetMovementDirection(), input.IsJumpPressed(), input.IsCrouchPressed());
+        Player.Move(input.GetMovementDirection(), input.IsJumpPressed(), input.IsCrouchPressed());
+    }
+
+    //Making camera trail the player in LateUpdate because player's new position is ready by then
+    void LateUpdate()
+    {
+        CameraUpdateTrailing();
+    }
+
+    void CameraUpdateTrailing()
+    {
+        float playerX = Player.transform.position.x;
+        if(playerX < PlayerTrackingMinX)
+            return;
+            
+        var camTfm = Cam.transform;
+        var camPos = camTfm.position;
+
+        camPos.x = playerX + camDeltaX;
+
+        camTfm.position = camPos;
     }
 
     void TogglePause()

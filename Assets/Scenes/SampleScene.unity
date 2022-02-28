@@ -564,6 +564,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4787465cffdb74ae89e03766c11def1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Player: {fileID: 0}
+  Cam: {fileID: 0}
+  PlayerTrackingMinX: -3
 --- !u!1 &1583343726
 GameObject:
   m_ObjectHideFlags: 0
@@ -849,5 +852,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WalkSpeed: 6
   CrouchWalkSpeed: 2
-  MidairSteerAccel: 1
+  MidairSteerAccel: 4
   JumpForce: 300
