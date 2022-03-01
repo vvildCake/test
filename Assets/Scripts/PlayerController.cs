@@ -93,13 +93,15 @@ public class PlayerController : MonoBehaviour
 
     void CrouchingStart()
     {
-        transform.localScale = new Vector3(1.0f, 0.5f, 1.0f);
+        transform.localScale = Vector3.one;
+        transform.localPosition += 0.5f*Vector3.down;
         currentMoveMode = moveCrouch;
     }
 
     void CrouchingStop()
     {
-        transform.localScale = Vector3.one;
+        transform.localScale = new Vector3(1.0f, 2.0f, 1.0f);
+        transform.localPosition += 0.5f*Vector3.up;
         currentMoveMode = moveWalk;
     }
     

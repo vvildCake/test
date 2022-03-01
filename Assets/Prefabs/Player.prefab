@@ -111,7 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WalkSpeed: 6
   CrouchWalkSpeed: 2
-  MidairSteerAccel: 4
+  MidairSteerAccel: 2.5
   JumpForce: 300
 --- !u!54 &388290615712883537
 Rigidbody:

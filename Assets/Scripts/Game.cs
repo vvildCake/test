@@ -10,13 +10,19 @@ public class Game : MonoBehaviour
     public PlayerController Player;
     public Camera Cam;
     public float PlayerTrackingMinX = -3.0f;
+    public Transform Goal;
+
+    public GameObject ButtonRetry;
+    public GameObject TextWon;
+    public GameObject TextLost;
+    public GameObject TextPaused;
 
     bool isPaused;
     float camDeltaX;
+    bool gameOver;
     
     void Awake()
     {
-        DontDestroyOnLoad(gameObject);
         input = new GameInputSimpleKeyboard();
         AssignPlayer();
         AssignCamera();
@@ -54,6 +60,9 @@ public class Game : MonoBehaviour
             return;
         
         Player.Move(input.GetMovementDirection(), input.IsJumpPressed(), input.IsCrouchPressed());
+        
+        if(!gameOver && Player.transform.position.x > Goal.transform.position.x)
+            Win();
     }
 
     //Making camera trail the player in LateUpdate because player's new position is ready by then
@@ -83,7 +92,40 @@ public class Game : MonoBehaviour
 
     void SetPause(bool pause)
     {
+        PauseGame(pause);
+        TextPaused.SetActive(pause);
+    }
+
+    void PauseGame(bool pause)
+    {
         Time.timeScale = pause ? 0.0f : 1.0f;
         isPaused = pause;
+    }
+
+    void Win()
+    {
+        GameOver();
+        TextWon.SetActive(true);
+        ButtonRetry.SetActive(true);
+    }
+
+    void Lose()
+    {
+        GameOver();
+        TextLost.SetActive(true);
+        ButtonRetry.SetActive(true);
+    }
+
+    void GameOver()
+    {
+        gameOver = true;
+        PauseGame(true);
+    }
+
+    public void RestartLevel()
+    {
+        PauseGame(false);
+        var level = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(level);
     }
 }
