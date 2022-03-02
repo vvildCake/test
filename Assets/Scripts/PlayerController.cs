@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     public float MidairSteerAccel = 1f;
     public float JumpForce = 100f;
 
+    public float Health = 100f;
+
     interface IMoveMode
     {
         void OnJump();
@@ -59,6 +61,16 @@ public class PlayerController : MonoBehaviour
         delta.x += Time.fixedDeltaTime * velocityX;
 
         lastVelocityX = velocityX;
+    }
+
+    void OnCollisionStay(Collision collisionInfo)
+    {
+        var lava = collisionInfo.gameObject.GetComponent<Lava>();
+        if(lava == null)
+            return;
+        
+        //OnCollisionStay called during physics update, using fixedDeltaTime
+        Health -= lava.DamagePerSecond * Time.fixedDeltaTime; 
     }
 
     //Applying calculated velocity in FixedUpdate so it's in sync with the rest of physics engine
