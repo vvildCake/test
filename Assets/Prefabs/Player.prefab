@@ -113,6 +113,7 @@ MonoBehaviour:
   CrouchWalkSpeed: 2
   MidairSteerAccel: 2.5
   JumpForce: 300
+  Health: 500
 --- !u!54 &388290615712883537
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -117,7 +117,7 @@ public class Game : MonoBehaviour
         ButtonRetry.SetActive(true);
     }
 
-    void Lose()
+    public void Lose()
     {
         GameOver();
         TextLost.SetActive(true);
