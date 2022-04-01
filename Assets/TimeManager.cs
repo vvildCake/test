@@ -7,8 +7,8 @@ public class TimeManager : MonoBehaviour
 {
     public Slider timeBar;
     public PlayerController _player;
-    [Range(0.0f, 5.0f)]
-    public float _fTime = 5.0f;
+    [Range(0.0f, 10.0f)]
+    public float _fTime = 10.0f;
 
     public float _fTimeDelta = 0.5f;
 
